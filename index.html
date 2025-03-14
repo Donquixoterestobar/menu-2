@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Texas BBQ Menu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Staatliches&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Staatliches', cursive;
+            text-align: center;
+            background: url('https://cdn.pixabay.com/photo/2017/02/14/09/02/wood-2065366_960_720.jpg') no-repeat center center/cover;
+            color: #fff;
+            margin: 0;
+        }
+
+        h1 {
+            font-size: 50px;
+            text-shadow: 3px 3px 2px rgba(0, 0, 0, 0.5);
+            color: #D7263D;
+            margin-top: 20px;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            background: #8B4513;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: 0.3s;
+        }
+
+        .tab:hover {
+            background: #A0522D;
+        }
+
+        .menu {
+            display: none;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .menu.active {
+            display: flex;
+        }
+
+        .menu-item {
+            width: 250px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s;
+            border: 3px solid #8B4513;
+            cursor: pointer;
+        }
+
+        .menu-item:hover {
+            transform: scale(1.1);
+        }
+
+        .menu-item img {
+            width: 230px;
+            height: 170px;
+            border-radius: 10px;
+            border: 2px solid #D7263D;
+        }
+
+        h2 {
+            font-size: 22px;
+            color: #FFD700;
+            text-shadow: 2px 2px 2px #000;
+        }
+
+        .price {
+            font-size: 18px;
+            font-weight: bold;
+            color: #FFA500;
+            text-shadow: 1px 1px 2px #000;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: #222;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            color: white;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .modal img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .close {
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🔥 Don Quixote BBQ Menu 🔥</h1>
+
+    <div class="tabs">
+        <div class="tab" onclick="showMenu('salats')">Салаты</div>
+        <div class="tab" onclick="showMenu('cold snacks')">Холодные Закуски</div>
+        <div class="tab" onclick="showMenu('grill-menu')">Гриль-меню</div>
+        <div class="tab" onclick="showMenu('bbq')">Шашлыки</div>
+        <div class="tab" onclick="showMenu('pizza')">Пицца</div>
+        <div class="tab" onclick="showMenu('first course')">Первые блюда</div>
+        <div class="tab" onclick="showMenu('second course')">Вторые блюда</div>
+        <div class="tab" onclick="showMenu('pasta')">Паста</div>
+        <div class="tab" onclick="showMenu('desserts')">Десерты</div>
+        <div class="tab" onclick="showMenu('banket source')">Банкетные блюда</div>
+    </div>
+
+    <div id="grill-menu" class="menu active"></div>
+    <div id="cold snacks" class="menu"></div>
+    <div id="desserts" class="menu"></div>
+    <div id="salats" class="menu"></div>
+    <div id="bbq" class="menu"></div>
+    <div id="pizza" class="menu"></div> 
+    <div id="first-course" class="menu"></div>
+    <div id="second course" class="menu"></div>
+    <div id="pasta" class="menu"></div>
+    <div id="banket source" class="menu"></div>
+
+
+
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modal-title"></h2>
+            <img id="modal-img" src="" alt="">
+            <p id="modal-description"></p>
+            <span class="price" id="modal-price"></span>
+        </div>
+    </div>
+
+    <script>
+        function showMenu(category) {
+            document.querySelectorAll('.menu').forEach(menu => menu.classList.remove('active'));
+            document.getElementById(category).classList.add('active');
+        }
+
+        function openModal(title, imgSrc, description, price) {
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-img').src = imgSrc;
+            document.getElementById('modal-description').textContent = description;
+            document.getElementById('modal-price').textContent = price;
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            let modal = document.getElementById('modal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        function addDish(category, name, description, price, imgUrl) {
+            const container = document.getElementById(category);
+            if (!container) {
+                console.error(`Вкладка ${category} не найдена!`);
+                return;
+            }
+
+            const dish = document.createElement("div");
+            dish.classList.add("menu-item");
+            dish.onclick = function () {
+                openModal(name, imgUrl, description, price);
+            };
+            dish.innerHTML = `
+                <img src="${imgUrl}" alt="${name}">
+                <h2>${name}</h2>
+                <span class="price">${price} ₸</span>
+            `;
+
+            container.appendChild(dish);
+        }
+
+        // === Добавление блюд в меню ===
+        addDish("grill-menu", "Стейк Рибай", "Говядина, картофельные дольки, чесночный соус", "4500₸", "https://chefrestoran.ru/wp-content/uploads/2019/01/6.jpg");
+        addDish("grill-menu", "Медальоны с грибным соусом", "Говядина, шампиньоны, грибной соус", "4200₸", "https://cdn-kz3.foodpicasso.com/assets/2023/09/02/c3013cc…---jpg_1000x_103c0_convert.jpg");
+        addDish("grill-menu", "Пеппер-Стейк", "", "4200", "ссылка на фото");
+        addDish("grill-menu", "Стейк Астана", "", "4800₸", "ссылка на фото");
+        addDish("grill-menu", "Цыпленок табака", "", "3400₸", "ссылка на фото");
+        addDish("cold snacks", "Мясное ассорти", "", "6800₸", "ссылка на фото");
+        addDish("cold snacks", "Кавказское ассорти", "", "3400₸", "ссылка на фото");
+        addDish("cold snacks", "Куриное ассорти", "", "6200₸", "ссылка на фото");
+        addDish("cold snacks", "Русская закуска", "", "2000₸", "ссылка на фото");
+        addDish("cold snacks", "Брускетты с семгой", "", "1650₸", "ссылка на фото");
+        addDish("cold snacks", "Брускетты с креветками", "", "1650₸", "ссылка на фото");
+        addDish("cold snacks", "Домашние соленья", "", "1800₸", "ссылка на фото");
+        addDish("cold snacks", "Капрезе", "", "2200₸", "ссылка на фото");
+        addDish("cold snacks", "Фруктовая нарезка", "", "3800₸", "ссылка на фото");
+        addDish("salats", "Микс салата с апельсином и креметте", "", "1800₸", "ссылка на фото");
+        addDish("salats", "Салат Фирменный Don Quixote", "", "2200₸", "ссылка на фото");
+        addDish("salats", "Салат Bon Appetit", "", "1800₸", "ссылка на фото");
+        addDish("salats", "Изабелла", "", "2300₸", "ссылка на фото");
+        addDish("salats", "Теплый салат с брынзой в кляре", "", "1800₸", "ссылка на фото");
+        addDish("salats", "Салат Мадрид", "", "1800₸", "ссылка на фото");
+        addDish("salats", "Греческий салат", "", "1800₸", "ссылка на фото");
+        addDish("salats", "Тайский", "", "1800₸", "ссылка на фото");
+        addDish("salats", "Хрутясщие баклажаны", "", "2200₸", "ссылка на фото");
+        addDish("salats", "Цезарь с курицей", "", "1800₸", "ссылка на фото");
+        addDish("salats", "Цезарь с креветками", "", "2600₸", "ссылка на фото");
+        addDish("salats", "Мужской каприз", "", "1600₸", "ссылка на фото");
+        addDish("salats", "Свежий салат", "", "1100₸", "ссылка на фото");
+        addDish("salats", "Рукола с креветками", "", "2900₸", "ссылка на фото");
+        addDish("bbq", "Говядина", "", "2900₸", "ссылка на фото");
+        addDish("bbq", "Крылышки", "", "1650₸", "ссылка на фото");
+        addDish("bbq", "Куриный", "", "1650₸", "ссылка на фото");
+        addDish("bbq", "Люля-кебаб", "", "1850₸", "ссылка на фото");
+        addDish("bbq", "Баранина", "", "2650₸", "ссылка на фото");
+        addDish("pizza", "Мексиканская", "куриное филе, светофор, помидор, кукуруза, халапеньо, сыр", "2500₸", "ссылка на фото");
+        addDish("pizza", "Альфредо", "куриное филе, шампиньоны, сливки, сыр", "2200₸", "ссылка на фото");
+        addDish("pizza", "Казахстан", "казы, жая, сыр", "2800₸", "ссылка на фото");
+        addDish("pizza", "Королевская", "говяжья вырезка, черри, рукола, чипсы, соус терияки, сыр", "3900₸", "ссылка на фото");
+        addDish("pizza", "Маргарита", "помидоры, сыр", "1800₸", "ссылка на фото");
+        addDish("pizza", "Пеперони", "салями, сыр", "2000₸", "ссылка на фото");
+        addDish("first-course", "Рамен", "", "2400₸", "ссылка на фото");
+        addDish("first-course", "Суп Том Ям", "", "2950₸", "ссылка на фото");
+        addDish("first-course", "Шурпа из говядины", "", "1350₸", "ссылка на фото");
+        addDish("first-course", "Кукси", "Горячий, холодный", "1500₸", "ссылка на фото");
+        addDish("first-course", "Пельмени", "", "1150₸", "ссылка на фото");
+        addDish("first-course", "Окрошка", "", "1150₸", "ссылка на фото");
+        addDish("first-course", "Солянка", "", "1450₸", "ссылка на фото");
+        addDish("first-course", "Суп лапша с фрикадельками", "", "950₸", "ссылка на фото");
+        addDish("first-course", "Сырный суп", "", "1350₸", "ссылка на фото");
+        addDish("first-course", "Чечевичный суп", "", "950₸", "ссылка на фото");
+    </script>
+    <style>
+        .service-fee {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-size: 16px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+    
+    <div class="service-fee">🔹 Обслуживание 15% 🔹</div>
+    
+
+</body>
+</html>
