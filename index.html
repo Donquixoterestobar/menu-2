@@ -360,19 +360,14 @@
         }
     </script>
     
-    <script>
-        window.onbeforeunload = function () {
-            return "Вы уверены, что хотите выйти? Для выхода введите пароль.";
-        };
-    
-        window.addEventListener("beforeunload", function (event) {
-            let password = prompt("Введите пароль для выхода:");
-            if (password !== "1234") {  // Замените на свой пароль
-                event.preventDefault();
-                event.returnValue = "";
-            }
-        });
-    </script>
+   <script>
+    window.addEventListener("beforeunload", function (event) {
+        // Выводим стандартное предупреждение браузера
+        event.preventDefault();
+        event.returnValue = "";
+    });
+</script>
+
 
     
     
