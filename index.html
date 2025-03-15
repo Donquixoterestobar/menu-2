@@ -345,6 +345,34 @@
     </style>
     
     <div class="service-fee">🔹 Обслуживание 15% 🔹</div>
+    <script>
+        // Устанавливаем нужный пароль
+        let correctPassword = "0609";  // Измени на свой
+    
+        // Запрашиваем пароль у пользователя
+        let userPassword = prompt("Введите пароль для входа:");
+    
+        // Проверяем пароль
+        if (userPassword !== correctPassword) {
+            alert("Неверный пароль! Доступ запрещён.");
+            window.location.href = "https://donquixoterestobar.github.io/menu-2/"; // Перенаправление
+            document.body.innerHTML = ""; // Очистка страницы
+        }
+    </script>
+    
+    <script>
+        window.onbeforeunload = function () {
+            return "Вы уверены, что хотите выйти? Для выхода введите пароль.";
+        };
+    
+        window.addEventListener("beforeunload", function (event) {
+            let password = prompt("Введите пароль для выхода:");
+            if (password !== "1234") {  // Замените на свой пароль
+                event.preventDefault();
+                event.returnValue = "";
+            }
+        });
+    </script>
 
     
     
