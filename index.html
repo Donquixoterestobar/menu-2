@@ -151,6 +151,7 @@
     background: #A0522D;
 }
 
+
     </style>
 </head>
 <body>
@@ -342,25 +343,19 @@
             font-size: 16px;
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
         }
-    <script>
-    window.onload = function () {
-        history.pushState(null, null, location.href); // Добавляем фиктивное состояние в историю
+    </style>
+    
+    <div class="service-fee">🔹 Обслуживание 15% 🔹</div>
 
-        window.onpopstate = function () {  // Отслеживаем нажатие "Назад"
-            let confirmExit = confirm("Вы точно хотите покинуть страницу?");
-            if (confirmExit) {
-                history.back(); // Разрешаем выход
-            } else {
-                history.pushState(null, null, location.href); // Оставляем пользователя на странице
-            }
-        };
-    };
-</script>
-
-
+    
+    
+    
+    
+    
 
     
     
 
 </body>
+
 </html>
